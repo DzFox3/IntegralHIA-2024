@@ -21,18 +21,19 @@ jobs:
       # Construye la imagen Docker
       - name: Build Docker Image
         run: |
-          docker build -t usuario/app:latest .
+          docker build -t Emmanuel97/myapp:latest .
 
       # Publica la imagen (requiere Docker Hub o un registro)
       - name: Push Docker Image
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker push usuario/app:latest
+          docker push johndoe/myapp:latest
 
       # Despliega ambos servicios en el servidor
       - name: Deploy Backend and Frontend
         run: |
           ssh user@server '
-          docker pull usuario/tp5-diazmarcos-bfend-backend:latest &&
-          docker pull usuario/tp5-diazmarcos-bfend-backend:latest &&
+          docker pull johndoe/tp5-diazmarcos-bfend-backend:latest &&
+          docker pull johndoe/tp5-diazmarcos-bfend-frontend:latest &&
           docker-compose -f ./TP5-DiazMarcos-BFend/docker-compose.yml up -d
+          '
